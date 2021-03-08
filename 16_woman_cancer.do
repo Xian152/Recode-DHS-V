@@ -60,7 +60,7 @@ if inlist(name,"Honduras2005") {
 	replace w_mammogram=1 if s1021==1
     replace w_mammogram=. if s1021==9
     tab v012 if w_mammogram!=. /*DHS sample is women aged 15-49*/
-    replace w_mammogram=. if wage<40|wage>49
+    replace w_mammogram=. if v012<40|v012>49
 
 }
 	
