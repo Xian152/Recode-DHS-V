@@ -22,7 +22,6 @@ order *,sequential  //make sure variables are in order.
 	 }
 	 /* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
-    //replace m3g = . 
 	
 	if inlist(name,"Ghana2008","Haiti2005") {	
 		replace m3f = .  // exclude traditional birth attendant/matrone
@@ -78,24 +77,36 @@ order *,sequential  //make sure variables are in order.
 	replace c_caesarean = . if c_caesarean == 9
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-	gen stay = 0
-	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
-	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,13,96) // filter question, based on m15	
-	
-	if !inlist(name,"Cambodia2005","Uganda2006"){
+
+	if !inlist(name,"Cambodia2005","India2005","Peru2004","Peru2007","Peru2009","Uganda2006"){
+		gen stay = 0
+		replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
 		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,96) // filter question, based on m15	
 	}
+	
+	if inlist(name,"Cambodia2005","India2005","Uganda2006"){
+		gen stay = 0
+		replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,13,96) // filter question, based on m15	
+	}
+	if inlist(name,"Peru2004","Peru2007","Peru2009"){
+		replace m61 = s421b 
+		gen stay = 0
+		replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,22,23,26,31,32,96) // filter question, based on m15	
+	}	
+	if inlist(name,"DominicanRepublic2007"){
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,96) // filter question, based on m15	
+	}
+	if inlist(name,"Lesotho2009"){
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12) // filter question, based on m15	
+	}
+	if inlist(name,"Ukraine2007"){
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11) // filter question, based on m15	
+	}	
 
 	egen checkstay=mean(m61)
 	replace stay = . if checkstay==. // when m61 has no value, some observation have stay =0, recode them to "missing".  
-	
-	if inlist(name,"Lesotho2009"){
-		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12) // filter question, based on m15		
-	}
-	
-	if inlist(name,"Peru2004","Peru2007","Peru2009"){
-		replace stay = . if inlist(m61,299,998,999,.) // filter question, based on m15		
-	}
 	
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
@@ -109,8 +120,4 @@ order *,sequential  //make sure variables are in order.
 	
 	*c_sba_eff2_q: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth, skin2skin contact) among those with any SBA
 	gen c_sba_eff2_q = c_sba_eff2 if c_sba == 1
-	
-
-
-
 	
