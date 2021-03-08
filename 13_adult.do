@@ -117,7 +117,7 @@
 		
 		gen a_bp_treat = 0 if a_bp_diag==1
 		replace a_bp_treat = 1 if s1032c_a ==1 
-		replace a_bp_treat = . if (s1032c_a. & a_bp_diag!=0) 
+		replace a_bp_treat = . if (s1032c_a==. & a_bp_diag!=0) 
 		
 		gen a_hi_bp140=.
 		replace a_hi_bp140=1 if (a_bp_sys>=140 & a_bp_sys!=.) | (a_bp_dial>=90 & a_bp_dial!=.)
