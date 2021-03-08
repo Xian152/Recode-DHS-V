@@ -30,6 +30,11 @@ if inlist(name,"DominicanRepublic2007") {
 	replace w_papsmear = . if s1008a == 9
     tab v012 if w_papsmear!=. /*DHS sample is women aged 15-49*/
 	replace w_papsmear=. if v012<20|v012>49
+	
+	replace w_mammogram = 1 if inlist(s1008b,1,3)
+	replace w_mammogram = 0 if inlist(s1008b,4,2)
+    tab v012 if w_mammogram!=. /*DHS sample is women aged 15-49*/
+    replace w_mammogram=. if wage<40|wage>49
 }
 
 if inlist(name,"Colombia2010") {
@@ -139,6 +144,7 @@ if inlist(name,"Armenia2010", "Bolivia2008","Lesotho2009") {
 }
 if inlist(name, "DominicanRepublic2007") {
 	replace w_papsmear_ref = "1yr"
+	replace w_mammogram_ref = "1yr"
 }
 if inlist(name, "Colombia2010","Honduras2005") {
 	replace w_papsmear_ref = "3yr"
@@ -165,14 +171,14 @@ if inlist(name,"Peru2004","Peru2007","Peru2009","Peru2010","Peru2011","Peru2012"
 gen w_mammogram_age = "" //use string in the list: "20-49","20-59"; or missing as ""
 gen w_papsmear_age = ""  //use string in the list: "40-49","20-59"; or missing as ""
 
-if inlist(name, "Armenia2010","Bolivia2008","DominicanRepublic2007","Lesotho2009") {
+if inlist(name, "Armenia2010","Bolivia2008","Lesotho2009") {
 	replace w_papsmear_age = "20-49"
 }
 if inlist(name,"Peru2004","Peru2007","Peru2009","Peru2010","Peru2011","Peru2012") {
 	replace w_papsmear_age = "20-49"
 }
 
-if inlist(name,"Colombia2010","Honduras2005","Honduras2011","Jordan2017" ){
+if inlist(name,"Colombia2010","Honduras2005","DominicanRepublic2007","Honduras2011","Jordan2017" ){
 	replace w_papsmear_age = "20-49" 
 	replace w_mammogram_age = "40-49" 
 }
