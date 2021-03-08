@@ -2,7 +2,7 @@
 *** DHS MONITORING: V
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-version 15.1
+//version 15.1
 clear all
 set matsize 3956, permanent
 set more off, permanent
@@ -18,8 +18,7 @@ macro drop _all
 
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
-//global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
-global root "/Users/xianzhang/Dropbox/DHS"
+global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "/Volumes/alan/DHS/RAW DATA/Recode V"
@@ -35,19 +34,8 @@ global DO "${root}/STATA/DO/SC/DHS/Recode V"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
-global mc "/Users/xianzhang/Dropbox"
 
-//$DHScountries_Recode_V
-
-// Albania2008 Azerbaijan2006 Bangladesh2007 Benin2006 Bolivia2008 Cambodia2005 Cambodia2010         
-// Colombia2010 Congorep2005 Congodr2007 DominicanRepublic2007 Egypt2008 Eswatini2006 Ghana2008            
-// Guyana2009 Haiti2005 Honduras2005 India2005 Indonesia2007 Jordan2007 Kenya2008            
-// Lesotho2009 Liberia2007 Madagascar2008 Malawi2010 Maldives2009 Mali2006 Namibia2006          
-// Nepal2006  Niger2006 Nigeria2008 Pakistan2006 Peru2004 Peru2007 Peru2009             
-// Peru2010 Peru2011 Peru2012 Philippines2008 SaoTomePrincipe2008 SierraLeone2008      
-// Tanzania2010 TimorLeste2009 Turkey2008 Uganda2006 Ukraine2007 Zambia2007 Zimbabwe2005         
-
-foreach name in Colombia2010 India2005 Indonesia2007 Jordan2007 Kenya2008 SaoTomePrincipe2008 Zambia2007{	
+foreach name in $DHScountries_Recode_V {	
 
 tempfile birth ind men hm hiv hh zsc iso 
 
@@ -251,6 +239,7 @@ if inlist(name,"Peru2012"){
     merge 1:m v001 v002 v003 using `birthspec'
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
+	gen name = "`name'"
 }
 if inlist(name,"Honduras2005"){
 	tempfile birthspec
@@ -271,6 +260,7 @@ if inlist(name,"Honduras2005"){
     merge 1:m v001 v002 v003 using `birthspec'
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
+	gen name = "`name'"
 }
 
     do "${DO}/15_household"
