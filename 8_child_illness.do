@@ -75,15 +75,16 @@ order *,sequential  //make sure variables are in order.
 *c_diarrhea_mof	Child with diarrhea received more fluids
         gen c_diarrhea_mof = (h38 == 5) if !inlist(h38,.,8,9) & c_diarrhea == 1
 
-recode h12z h15 h15a h15b h15c h15d h15e h15f h15g h15h h15i h15j h15k h15l (8 9 =.)	
 *c_diarrhea_medfor Get formal medicine except (ors hmf home other_med, country specific). 
-        egen medfor = rowtotal(h12z h15 h15a h15b h15c h15e h15g h15h h15i h15j h15k h15l),mi
+        egen medfor = rowtotal(h12z h15 h15a h15b h15c h15e h15g h15h h15i),mi
 		gen c_diarrhea_medfor = ( medfor > = 1 ) if c_diarrhea == 1 & medfor!=.
 		// formal medicine don't include "home remedy, herbal medicine and other"
+        replace c_diarrhea_medfor = . if inlist(h12z,8,9) |inlist(h15,8,9)|inlist(h15a,8,9)|inlist(h15b,8,9)|inlist(h15c,8,9)|inlist(h15e,8,9)|inlist(h15g,8,9)|inlist(h15h,8,9)|inlist(h15i,8,9)|inlist(h15j,8,9)
 
 *c_diarrhea_med	Child with diarrhea received any medicine other than ORS or hmf (country specific)
-        egen med = rowtotal(h12z h15 h15a h15b h15c h15d h15e h15f h15g h15h h15i h15j h15k h15l),mi
-		gen c_diarrhea_med = ( med > = 1 ) if c_diarrhea == 1 & med!=.
+        egen med = rowtotal(h12z h15 h15a h15b h15c h15d h15e h15f h15g h15h h15i h15j),mi
+        gen c_diarrhea_med = ( med > = 1 ) if c_diarrhea == 1 & med!=.
+        replace c_diarrhea_med = . if inlist(h12z,8,9) |inlist(h15,8,9)|inlist(h15a,8,9)|inlist(h15b,8,9)|inlist(h15c,8,9)|inlist(h15d,8,9)|inlist(h15e,8,9)|inlist(h15f,8,9)|inlist(h15g,8,9)|inlist(h15h,8,9)|inlist(h15i,8,9)|inlist(h15j,8,9)
 		
 *c_diarrheaact	Child with diarrhea seen by provider OR given any form of formal treatment
         gen c_diarrheaact = (c_diarrhea_pro==1 | c_diarrhea_medfor==1 | c_diarrhea_hmf==1 | c_treatdiarrhea==1) if c_diarrhea == 1
@@ -214,11 +215,4 @@ if ~inlist(name,"Bolivia2008") {
 		
         gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI2 == 1) if c_illness2 == 1
 		replace c_illtreat2 = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari2 == 1 & c_treatARI2 == .) 
-
-
-
-
-
-
-
 
