@@ -88,7 +88,7 @@
 			replace c_dpt3  = 1 if inrange(h7,1,3) | inrange(spv3,1,3) 
 			replace c_dpt3  = 0 if h7 == 0 & spv3 ==0
 		}
-	/*	
+		
 		if inlist(name,"Peru2004","Peru2007","Peru2009","Peru2010","Peru2011","Peru2012") {
 			drop c_dpt1 c_dpt2 c_dpt3
 			
@@ -102,7 +102,7 @@
 			replace c_dpt3  = 1 if inrange(h7,1,3) | inrange(s45pv3,1,3) 
 			replace c_dpt3  = 0 if h7 == 0 & s45pv3 ==0
 		}
-	*/	
+		
 		if inlist(name,"Uganda2006") {
 			drop c_dpt1 c_dpt2 c_dpt3
 			
