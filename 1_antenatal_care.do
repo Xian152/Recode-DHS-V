@@ -39,11 +39,7 @@ order *,sequential
 		|regexm("`lab'","na^|-na|traditional birth attendant|untrained|health assistant|medical assistant/icp|obgyn|anganwadi/icds worker|family welfare visitor|mch worker|unquallified|unqualified|empirical midwife|trad.| other|vhw")) &  !(regexm("`lab'","doctor")&regexm("`lab'","other")) | regexm("`lab'","untrained") 		
 	replace `var' = . if !inlist(`var',0,1)
 	 }
-	/* 
-	    !regexm("`lab'"," trained") & ///
-		(!regexm("`lab'","doctor|nurse|Nurse|Assistante Accoucheuse|patient attendant|nursing aide|rural medical aide|(sanitario)|(ma/sacmo)|Midwife|matron with office|cs health profession|midwife|gynecology|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|matron|general practitioner") ///
-		|regexm("`lab'","na^|-na|na -|NA -|trad.birth|vhw|untrained|tradictional birth attendant|matronne|training uncertain|, agent de l'hopital|Other health|care provider|: matron without office|health assistant| obstetrician|family welfare|traditional birth attendant|untrained|unqualified|empirical midwife|without box")) {
-*/
+
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
     if inlist(name,"Ghana2008","Haiti2005") {	
