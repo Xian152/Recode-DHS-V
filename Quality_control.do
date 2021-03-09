@@ -16,6 +16,8 @@ replace surveyid = "NA2006DHS" if surveyid == "NM2006DHS"
 replace surveyid = "NE2006DHS" if surveyid == "NI2006DHS"
 replace surveyid = "TZ2009DHS" if surveyid == "TZ2010DHS"
 replace surveyid = "CO2009DHS" if surveyid == "CO2010DHS"
+replace surveyid = "ML1995DHS" if surveyid == "ML1996DHS"
+
 save "C:\Users\Guan\OneDrive\DHS\MEASURE UHC DATA/RAW DATA/Recode V/external/DHS.dta", replace
 */
 
